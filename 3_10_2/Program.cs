@@ -14,18 +14,41 @@ namespace example_3_10_2
         static void Main(string[] args)
         {
             WriteLine("Добро пожаловать в счетчик карт в игре 21");
-            Write("Введите колличество обычных карт в руке");
-            int quantity = int.Parse(ReadLine());
-            Write("Введите колличество карт - картинок в руке");
-            int icons = int.Parse(ReadLine());
+            Write("Введите колличество карт в руке");
+            int count = Convert.ToInt32(ReadLine());
             int summ = 0;
-            for (int i = 0; i != quantity; i++)
+            for (int i = 0; i < count; i++)
             {
-                Write("Введите вес карты");
-                summ = summ + int.Parse(ReadLine());
+                Write("Введите номер карты (2-10) или же её знак (J,Q,K,T):");
+                string userInput = (ReadLine());
+                
+                switch (userInput)
+                {
+                    case "J":
+                    case "Q":
+                    case "K":
+                    case "T":
+                        summ += 10;
+                        break;
+
+                default:
+                        bool isNumber = int.TryParse(userInput, out int cardValue);
+
+                        if (isNumber && cardValue >= 2 && cardValue <= 10)
+                        {
+                            summ += cardValue;
+                        }
+                        else
+                        {
+                            WriteLine("Такой карты не бывает");
+                            i--;
+                        }
+                        break;
+
+                }
             }
-            WriteLine(summ + icons * 10); // зачем прописывать 21 кейс, если это только увеличит код. Я усвоил оператор swift, но в этом задании им делать - копипастить строки
-            ReadKey();
+            WriteLine($"Сумма карт в руке: {summ}");
+            ReadKey(true);
 
         }
     }
